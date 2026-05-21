@@ -21,5 +21,10 @@ func DBConection() {
 	} else {
 		log.Print("DB conectada ✅")
 	}
-	DB.AutoMigrate(&models.Product{}, &models.Category{})
+
+	if !DB.Migrator().HasTable(&models.Category{}) || !DB.Migrator().HasTable(&models.Product{}) {
+		if err := DB.AutoMigrate(&models.Category{}, &models.Product{}); err != nil {
+			log.Fatal(err)
+		}
+	}
 }

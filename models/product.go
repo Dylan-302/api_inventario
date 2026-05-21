@@ -1,22 +1,24 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type Product struct {
 	gorm.Model
-	Name        string   `json:"name"`
-	Description string   `json:"description"`
+	Name        string   `json:"nombre"`
+	Description string   `json:"descripcion"`
 	SKU         string   `json:"sku"`
-	Barcode     string   `json:"barcode"`
-	CostPrice   float64  `json:"cost_price"`
-	SalePrice   float64  `json:"sale_price"`
+	Barcode     string   `gorm:"column:codigo_barras" json:"codigo_barras"`
+	CostPrice   float64  `gorm:"column:precio_costo" json:"precio_costo"`
+	SalePrice   float64  `gorm:"column:precio_venta" json:"precio_venta"`
 	Stock       int      `json:"stock"`
-	MinStock    int      `json:"min_stock"`
-	Unit        string   `json:"unit"`
-	CategoryID  uint     `json:"category_id"`
-	Category    Category `json:"category,omitempty"`
-	Supplier    string   `json:"supplier"`
-	Brand       string   `json:"brand"`
-	IsActive    bool     `json:"is_active"`
-	ImageURL    string   `json:"image_url"`
+	MinStock    int      `gorm:"column:stock_minimo" json:"stock_minimo"`
+	Unit        string   `gorm:"column:unidad" json:"unidad"`
+	CategoryID  uint     `gorm:"column:categoria_id" json:"categoria_id"`
+	Category    Category `gorm:"foreignKey:CategoryID;references:ID" json:"categoria,omitempty"`
+	Supplier    string   `json:"proveedor"`
+	Brand       string   `json:"marca"`
+	IsActive    bool     `gorm:"column:es_activo" json:"es_activo"`
+	ImageURL    string   `gorm:"column:url_imagen" json:"url_imagen"`
 }
